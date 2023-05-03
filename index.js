@@ -23,7 +23,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // application/json 으로 된 것을 분석해서 가져옴
 app.use(bodyParser.json());
 
-app.get("/", (req, res) => res.send("Hello World! 안녕하세요!!!"));
+app.get("/", (req, res) =>
+  res.send(
+    "Hello World! 안녕하세요!!! 변화가 감지되나요? 실시간으로 감지되어야 합니다. 필요한 것은 한번의 새로고침입니다."
+  )
+);
 
 app.post("/register", async (req, res) => {
   // 회원 가입할때 필요한 정보들을 clinet에서 가져오면
