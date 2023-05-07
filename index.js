@@ -1,16 +1,14 @@
 const express = require("express");
 const app = express();
 const port = 5000;
-
 const mongoose = require("mongoose");
+const config = require("./config/key");
+
 mongoose
-  .connect(
-    "mongodb+srv://kwon5943:gpdnjsdlek2^@cluster0.og98sw5.mongodb.net/?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect(config.mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("MongoDB Connected ...."))
   .catch((err) => console.log(err));
 //mongodb+srv://kwon5943:<password>@cluster0.og98sw5.mongodb.net/?retryWrites=true&w=majority
