@@ -61,14 +61,26 @@ userSchema.methods.comparePassword = function (plainPassword, cb) {
   });
 };
 
-// userSchema.methods.generateToken = async function (cb) {
-//   // jsonwebtoken을 이용해서 token을 생성하기
-//   var user = this;
-//   var token = jwt.sign(user.toString(), "secretToken");
+userSchema.methods.generateToken = async function (res) {
+  // jsonwebtoken을 이용해서 token을 생성하기
+  var user = this;
+  var token = jwt.sign(user.toString(), "secretToken");
 
-//   user.token = token;
-//   await user.save(user);
-// };
+  user.token = token;
+  await user
+    .save()
+    .then(() => {
+      console.log("getnerateToken 뒤의 유저 확인 : " + user);
+      // 토큰을 저장한다. 어디에? 쿠키, 로컬스토리지
+      return res
+        .cookie("x_auth", user.token)
+        .status(200)
+        .json({ loginSuccess: true, userId: user._id });
+    })
+    .catch((err) => {
+      return res.status(400).send(err);
+    });
+};
 
 const User = mongoose.model("User", userSchema);
 module.exports = { User };
